@@ -1,6 +1,18 @@
 # placticeNuxtTodo
 NuxtでTodoアプリを作成
 
+## 作業環境
+```
+$ npx envinfo
+  System:
+    OS: Windows 10
+    CPU: (4) x64 Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz
+  Binaries:
+    Node: 12.1.0
+    Yarn: 1.15.2
+    npm: 6.9.0
+```
+
 ## 構成
 UIFW：vuetify
 TestFW：jest
