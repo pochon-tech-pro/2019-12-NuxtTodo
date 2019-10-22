@@ -22,3 +22,5 @@ $ yarn start
 $ yarn run generate
 ```
 
+## 動作確認
+localhost:3000 
