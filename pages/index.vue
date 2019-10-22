@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-app-bar app inset flat>
+    <v-app-bar>
       <v-toolbar-title headline>Todo</v-toolbar-title>
       <v-spacer />
     </v-app-bar>
