@@ -13,7 +13,7 @@
     <v-card flat tile>
       <v-card-text>
         <v-text-field v-model="content" placeholder="Todoを入力" />
-        <v-btn @click="addTodo">add</v-btn>
+        <v-btn @click="add">add</v-btn>
       </v-card-text>
     </v-card>
     <v-divider /><v-divider />
@@ -64,22 +64,26 @@
 </template>
 
 <script>
+import { mapGetters, mapState, mapActions } from "vuex"
 export default {
   data() {
     return {
-      todos: [],
       index: '',
       content: '',
       editContent: '',
       editDialog: false,
     }
   },
-  components: {
+  computed: {
+    todos() { return this.$store.state.todo.todos }
   },
   methods: {
-    addTodo() {
+    ...mapActions("todo", [
+      "addTodo",
+    ]),
+    add() {
       if (! this.content) return alert('入力してください')
-      this.todos.push({content: this.content})
+      this.addTodo({ content: this.content })
       this.content = ''
     },
     deleteTodo(index) {
