@@ -1,16 +1,30 @@
 export const state = () => ({
-  todos: []
+  todos: [],
+  content: ''
 })
 export const getters = {
   todos: state => state.todos
 }
 export const actions = {
-  addTodo({ commit }, value){
-    commit("ADD_TODO", value)
+  setContent({ commit }, value) {
+    commit("SET_CONTENT", value)
+  },
+  addTodo({ commit }) {
+    commit("ADD_TODO")
+  },
+  removeTodo({ commit }, index) {
+    commit("REMOVE_TODO", index)
   }
 }
 export const mutations = {
+  SET_CONTENT(state, value) {
+    state.content = value
+  },
   ADD_TODO(state, value) {
-    state.todos.push(value)
+    state.todos.push({ content: state.content })
+    state.content = ''
+  },
+  REMOVE_TODO(state, index) {
+    state.todos.splice(index,1)
   }
 }

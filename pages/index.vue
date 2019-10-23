@@ -35,7 +35,7 @@
         
         <v-list-tile-action>
           <v-btn icon>
-            <v-icon @click.stop="deleteTodo(index)">delete</v-icon>
+            <v-icon @click.stop="remove(index)">delete</v-icon>
           </v-btn>
         </v-list-tile-action>
 
@@ -68,37 +68,47 @@ import { mapGetters, mapState, mapActions } from "vuex"
 export default {
   data() {
     return {
-      index: '',
-      content: '',
       editContent: '',
       editDialog: false,
     }
   },
   computed: {
-    todos() { return this.$store.state.todo.todos }
+    todos : {
+      get(){
+        return this.$store.state.todo.todos
+      }
+    },
+    content:{
+      get(){
+        return this.$store.state.todo.content
+      },
+      set(value){
+        this.setContent(value)
+      },
+    },
   },
   methods: {
     ...mapActions("todo", [
+      "setContent",
       "addTodo",
+      "removeTodo"
     ]),
     add() {
       if (! this.content) return alert('入力してください')
-      this.addTodo({ content: this.content })
-      this.content = ''
+      this.addTodo()
     },
-    deleteTodo(index) {
-      this.todos.splice(index,1)
+    remove(index) {
+      this.removeTodo(index)
     },
     openEditDialog(index) {
-      this.index = index
-      this.editContent = this.todos[this.index].content
+      // this.editTodo(index)
       this.editDialog = true
     },
     editTodo() {
-      if (! this.editContent) return alert('入力してください')
-      this.todos[this.index].content = this.editContent
-      this.index = ''
-      this.content = ''
+      // if (! this.editContent) return alert('入力してください')
+      // this.todos[this.index].content = this.editContent
+      // this.index = ''
+      // this.content = ''
       this.editDialog = false
     },
     showTodo(index) {
