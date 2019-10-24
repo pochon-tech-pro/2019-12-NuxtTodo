@@ -20,7 +20,7 @@
     <!-- 表示 -->
     <v-list>
     <template v-for="(todo,index) in todos">
-      <v-list-tile :key="index" @click="showTodo(index)">
+      <v-list-tile :key="index" @click="show(todo.id)">
         <v-list-tile-content>
           <v-list-tile-title>
             {{ todo.content }}
@@ -29,13 +29,13 @@
 
         <v-list-tile-action>
           <v-btn icon>
-            <v-icon @click.stop="openEditDialog(index)">edit</v-icon>
+            <v-icon @click.stop="open(todo.id)">edit</v-icon>
           </v-btn>
         </v-list-tile-action>
         
         <v-list-tile-action>
           <v-btn icon>
-            <v-icon @click.stop="remove(index)">delete</v-icon>
+            <v-icon @click.stop="remove(todo.id)">delete</v-icon>
           </v-btn>
         </v-list-tile-action>
 
@@ -55,7 +55,8 @@
           <v-text-field label="content" v-model="editContent"></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="editTodo()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="edit()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="close()">close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -68,7 +69,6 @@ import { mapGetters, mapState, mapActions } from "vuex"
 export default {
   data() {
     return {
-      editContent: '',
       editDialog: false,
     }
   },
@@ -86,33 +86,49 @@ export default {
         this.setContent(value)
       },
     },
+    editContent: {
+      get(){
+        return this.$store.state.todo.editContent
+      },
+      set(value) {
+        this.setEditContent(value)
+      }
+    }
   },
   methods: {
     ...mapActions("todo", [
       "setContent",
+      "setEditContent",
       "addTodo",
-      "removeTodo"
+      "editTodo",
+      "removeTodo",
+      "setEditContent",
+      "openDialog",
+      "closeDialog"
     ]),
     add() {
       if (! this.content) return alert('入力してください')
       this.addTodo()
     },
-    remove(index) {
-      this.removeTodo(index)
+    remove(id) {
+      this.removeTodo(id)
     },
-    openEditDialog(index) {
-      // this.editTodo(index)
+    open(id) {
+      this.openDialog(id)
       this.editDialog = true
     },
-    editTodo() {
-      // if (! this.editContent) return alert('入力してください')
-      // this.todos[this.index].content = this.editContent
-      // this.index = ''
-      // this.content = ''
+    close() {
+      this.closeDialog()
       this.editDialog = false
     },
-    showTodo(index) {
-      alert(`TODO： ${ this.todos[index].content }`)
+    edit () {
+      if (! this.editContent) return alert('入力してください')
+      this.editTodo()
+      this.editDialog = false
+    },
+    show(id) {
+      const targetIndex = this.todos.findIndex((todo)=>(todo.id === id))
+      alert(`TODO： ${ this.todos[targetIndex].content }`)
     }
   }
 }
