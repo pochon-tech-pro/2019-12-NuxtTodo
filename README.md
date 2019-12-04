@@ -1,4 +1,4 @@
-# placticeNuxtTodo
+# exampleTodoListByNuxt
 NuxtでTodoアプリを作成
 
 ## 作業環境
